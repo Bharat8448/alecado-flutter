@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alecado/config.dart';
 import 'package:alecado/models/loginRequestModel.dart';
 import 'package:alecado/models/loginResponseModel.dart';
+import 'package:alecado/models/signUpRequestModel.dart';
 import 'package:alecado/services/sharedService.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,4 +24,20 @@ class ApiService {
       return false;
     }
   }
+
+  static Future<bool> signup(SignUpRequestModel model) async {
+    Map<String, String> requestHeaders = {
+      'Content-Type':'application/json',
+    };
+    var url = Uri.http(Config.apiUrl, Config.SignUpApi);
+    var resposnse = await client.post(url, headers: requestHeaders, body: jsonEncode(model.toJson()),);
+    if(resposnse.statusCode==200) {
+      
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
 }

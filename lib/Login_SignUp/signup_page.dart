@@ -4,10 +4,13 @@
 // import 'package:email_auth/email_auth.dart';
 import 'package:alecado/Customer/UI/home_module.dart';
 import 'package:alecado/Vendor/UI/Profile.dart';
+import 'package:alecado/models/signUpRequestModel.dart';
+import 'package:alecado/services/ApiService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:alecado/Login_SignUp/login_page.dart';
 // import 'package:string_validator/string_validator.dart';
 
 class SignupPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
+  final emailcontroller = TextEditingController();
 
   //var emailAuth = EmailAuth(sessionName: "E-commerce App");
 
@@ -158,12 +162,55 @@ class _SignupPageState extends State<SignupPage> {
                 height: 25,
               ),
               TextField(
-                controller: usernameController,
+                controller: emailcontroller,
                 //This will obscure text dynamically
                 style: const TextStyle(color: Colors.black),
                 textAlign: TextAlign.start,
                 decoration: const InputDecoration(
                   hintText: "Email or Phone",
+                  hintStyle: TextStyle(
+                    color: Colors.black54,
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  filled: true,
+                  fillColor: Color.fromRGBO(255, 255, 255, 1),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.white70),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+              ),
+              usernameIsEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.only(left: 20, top: 5),
+                      child: Text(
+                        "This field should not be empty",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    )
+                  : Container(),
+              const SizedBox(
+                height: 20,
+              ),
+              
+              TextField(
+                controller: usernameController,
+                //This will obscure text dynamically
+                style: const TextStyle(color: Colors.black),
+                textAlign: TextAlign.start,
+                decoration: const InputDecoration(
+                  hintText: "username...",
                   hintStyle: TextStyle(
                     color: Colors.black54,
                   ),
@@ -264,11 +311,20 @@ class _SignupPageState extends State<SignupPage> {
                             MaterialPageRoute(
                                 builder: (context) => const upload()),
                           )
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const home_module()),
-                          );
+                        : 
+                        ApiService.signup(SignUpRequestModel(email: emailcontroller.text, password: passwordController.text, name: usernameController.text)).then((response) {
+                            if(response) {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            );
+
+                            }
+                            else{
+                              print('invalid credentials');
+                            }
+                          });
                     // setState(() {
                     //   usernameIsEmpty =
                     //       usernameController.text.isEmpty ? true : false;
