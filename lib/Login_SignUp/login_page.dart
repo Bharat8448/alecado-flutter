@@ -207,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                       print("Forget password is called");
                     },
                     child: const Text(
-                      "Forget Passwords",
+                      "Forget Pas",
                       style: TextStyle(
                         color: Colors.black45,
                       ),
