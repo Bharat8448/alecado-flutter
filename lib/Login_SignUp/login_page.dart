@@ -6,6 +6,7 @@ import 'package:alecado/services/ApiService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -27,6 +28,11 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isCustomerSelected = true;
   bool isVendorSelected = false;
+
+  void invalidCredentials() => Fluttertoast.showToast(
+    msg: 'Invalid Credentials',
+    fontSize: 16.0
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -245,6 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                             else{
                               print('invalid credentials');
+                              invalidCredentials();
                             }
                           });
                           

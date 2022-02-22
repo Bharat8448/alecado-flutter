@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:alecado/Login_SignUp/login_page.dart';
 // import 'package:string_validator/string_validator.dart';
 
@@ -40,6 +41,11 @@ class _SignupPageState extends State<SignupPage> {
 
   bool isCustomerSelected = true;
   bool isVendorSelected = false;
+
+  void invalidCredentials() => Fluttertoast.showToast(
+    msg: 'Invalid Credentials',
+    fontSize: 16.0
+  );
 
   // Future<bool> sendNumberOTP() async {
   //   if (isNumeric(usernameController.text)) {
@@ -323,6 +329,7 @@ class _SignupPageState extends State<SignupPage> {
                             }
                             else{
                               print('invalid credentials');
+                              invalidCredentials();
                             }
                           });
                     // setState(() {
